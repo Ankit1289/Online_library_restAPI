@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Lumina Online Library - Explore, search, and borrow millions of books powered by the Open Library public REST API. Simple, elegant, and free.">
+  <meta name="theme-color" content="#0b0f19">
+  <title>Lumina Online Library | Free Digital Book Collection via REST API</title>
+  
+  <!-- Modern Typography from Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body data-theme="dark">
+  <!-- Skip link for accessibility -->
+  <a href="#main-catalog" class="skip-link">Skip to catalog</a>
+
+  <!-- Top Navigation Bar -->
+  <header class="navbar" id="navbar">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="#" class="brand-logo" id="brand-home-btn" aria-label="Lumina Library Home">
+          <div class="logo-icon-wrap">
+            <svg class="logo-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-0.5-0.05"/>
+              <path d="M6 2v20"/>
+              <path d="M12 6h5"/>
+              <path d="M12 10h5"/>
+              <path d="M12 14h3"/>
+            </svg>
+            <span class="logo-glow"></span>
+          </div>
+          <div class="brand-text">
+            <span class="brand-name">LUMINA</span>
+            <span class="brand-badge">LIBRARY</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Quick Nav Search Trigger (Desktop) -->
+      <div class="nav-search-wrapper">
+        <div class="nav-search-bar" id="nav-search-trigger">
+          <svg class="nav-search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"></circle>
+            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+          </svg>
+          <span class="nav-search-placeholder">Quick search books, authors...</span>
+          <kbd class="shortcut-key">⌘K</kbd>
+        </div>
+      </div>
+
+      <!-- Nav Actions -->
+      <div class="nav-actions">
+        <!-- Live API Status Tag -->
+        <button class="api-status-btn" id="api-status-btn" title="View REST API status & inspector" aria-label="REST API Status">
+          <span class="pulse-indicator"></span>
+          <span class="api-label">REST API</span>
+          <span class="api-status-text" id="api-status-indicator">Connected</span>
+        </button>
+
+        <!-- Shelf Drawer Trigger -->
+        <button class="icon-btn shelf-btn" id="open-shelf-btn" aria-label="Open My Bookshelf" title="My Reading Shelf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <span class="badge-counter" id="shelf-counter">0</span>
+        </button>
+
+        <!-- Theme Toggle -->
+        <button class="icon-btn theme-toggle-btn" id="theme-toggle-btn" aria-label="Toggle Dark and Light mode" title="Toggle Theme">
+          <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <line x1="12" y1="1" x2="12" y2="3"></line>
+            <line x1="12" y1="21" x2="12" y2="23"></line>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+            <line x1="1" y1="12" x2="3" y2="12"></line>
+            <line x1="21" y1="12" x2="23" y2="12"></line>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+          </svg>
+          <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <!-- Hero Banner Section -->
+    <section class="hero-section" id="hero-section">
+      <div class="hero-bg-overlay"></div>
+      <div class="hero-content">
+        <div class="hero-tag">
+          <span class="tag-sparkle">✦</span>
+          <span>Next-Gen Open Access Digital Library</span>
+        </div>
+        <h1 class="hero-title">
+          Discover, Read & Borrow <span class="gradient-text">World Literature</span>
+        </h1>
+        <p class="hero-subtitle">
+          Seamlessly querying the global Open Library REST API in real-time. Instant access to millions of free editions, works, and public domain masterworks.
+        </p>
+
+        <!-- Main Search Form -->
+        <div class="search-container">
+          <form class="search-form" id="search-form" role="search">
+            <div class="search-input-group">
+              <svg class="search-input-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+              <input 
+                type="text" 
+                id="search-input" 
+                class="search-input" 
+                placeholder="Search by title, author, subject, or ISBN (e.g., Dune, Tolkien, JavaScript)..." 
+                autocomplete="off"
+                aria-label="Search books"
+              >
+              <button type="button" class="clear-search-btn" id="clear-search-btn" aria-label="Clear search input" hidden>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"></line>
+                  <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+
+            <div class="search-filter-controls">
+              <div class="filter-select-wrapper">
+                <select id="search-filter-type" class="filter-select" aria-label="Filter search type">
+                  <option value="q">All Fields</option>
+                  <option value="title">Title Only</option>
+                  <option value="author">Author Only</option>
+                  <option value="subject">Subject/Genre</option>
+                </select>
+                <svg class="select-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </div>
+
+              <button type="submit" class="search-submit-btn" id="search-submit-btn">
+                <span>Search Library</span>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </button>
+            </div>
+          </form>
+
+          <!-- Quick Search Suggestions -->
+          <div class="search-suggestions" id="search-suggestions">
+            <span class="suggestions-label">Popular queries:</span>
+            <button class="pill-chip suggestion-chip" data-query="Isaac Asimov">Isaac Asimov</button>
+            <button class="pill-chip suggestion-chip" data-query="Artificial Intelligence">Artificial Intelligence</button>
+            <button class="pill-chip suggestion-chip" data-query="Sherlock Holmes">Sherlock Holmes</button>
+            <button class="pill-chip suggestion-chip" data-query="George Orwell">George Orwell</button>
+            <button class="pill-chip suggestion-chip" data-query="Python Programming">Python</button>
+          </div>
+        </div>
+
+        <!-- Library Live Metric Stats -->
+        <div class="hero-stats">
+          <div class="stat-item">
+            <span class="stat-number">30M+</span>
+            <span class="stat-label">Indexed Works</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">RESTful</span>
+            <span class="stat-label">Open Library API</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number">100% Free</span>
+            <span class="stat-label">Open Public Domain</span>
+          </div>
+          <div class="stat-divider"></div>
+          <div class="stat-item">
+            <span class="stat-number" id="stats-loans-count">0</span>
+            <span class="stat-label">Active Loans</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Genre & Category Carousel Section -->
+    <section class="categories-section" id="categories-section" aria-label="Book Categories">
+      <div class="section-container">
+        <div class="category-bar-header">
+          <div class="category-bar-title">
+            <svg class="header-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon>
+            </svg>
+            <h2>Browse Curated Collections</h2>
+          </div>
+          <div class="category-nav-controls">
+            <button class="carousel-arrow prev" id="cat-prev-btn" aria-label="Previous categories">‹</button>
+            <button class="carousel-arrow next" id="cat-next-btn" aria-label="Next categories">›</button>
+          </div>
+        </div>
+
+        <div class="categories-carousel" id="categories-carousel" role="tablist">
+          <button class="category-pill active" data-subject="trending" role="tab" aria-selected="true">
+            <span class="pill-icon">🔥</span>
+            <span>Trending Works</span>
+          </button>
+          <button class="category-pill" data-subject="science_fiction" role="tab" aria-selected="false">
+            <span class="pill-icon">🚀</span>
+            <span>Sci-Fi & Cyberpunk</span>
+          </button>
+          <button class="category-pill" data-subject="fantasy" role="tab" aria-selected="false">
+            <span class="pill-icon">🧙</span>
+            <span>Fantasy & Lore</span>
+          </button>
+          <button class="category-pill" data-subject="programming" role="tab" aria-selected="false">
+            <span class="pill-icon">💻</span>
+            <span>Computer Science</span>
+          </button>
+          <button class="category-pill" data-subject="philosophy" role="tab" aria-selected="false">
+            <span class="pill-icon">🏛️</span>
+            <span>Philosophy</span>
+          </button>
+          <button class="category-pill" data-subject="history" role="tab" aria-selected="false">
+            <span class="pill-icon">📜</span>
+            <span>World History</span>
+          </button>
+          <button class="category-pill" data-subject="mystery_and_detective_stories" role="tab" aria-selected="false">
+            <span class="pill-icon">🔍</span>
+            <span>Mystery & Crime</span>
+          </button>
+          <button class="category-pill" data-subject="classic_literature" role="tab" aria-selected="false">
+            <span class="pill-icon">📖</span>
+            <span>Classics</span>
+          </button>
+          <button class="category-pill" data-subject="art" role="tab" aria-selected="false">
+            <span class="pill-icon">🎨</span>
+            <span>Art & Design</span>
+          </button>
+          <button class="category-pill" data-subject="psychology" role="tab" aria-selected="false">
+            <span class="pill-icon">🧠</span>
+            <span>Psychology</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Catalog Grid Section -->
+    <section class="catalog-section" id="main-catalog">
+      <div class="section-container">
+        <!-- Catalog Controls Toolbar -->
+        <div class="catalog-toolbar">
+          <div class="catalog-status-info">
+            <h3 class="catalog-view-title" id="catalog-view-title">Trending Masterpieces</h3>
+            <span class="results-badge" id="results-count-badge">Loading REST API...</span>
+          </div>
+
+          <div class="catalog-actions-group">
+            <!-- Sort dropdown -->
+            <div class="sort-select-wrapper">
+              <label for="catalog-sort-select" class="sr-only">Sort books</label>
+              <select id="catalog-sort-select" class="sort-select">
+                <option value="relevance">Default Order</option>
+                <option value="year-desc">Newest Published</option>
+                <option value="year-asc">Oldest / First Editions</option>
+                <option value="title-asc">Title (A - Z)</option>
+              </select>
+            </div>
+
+            <!-- Grid / List view toggle -->
+            <div class="view-mode-group" role="group" aria-label="Catalog View Mode">
+              <button class="view-btn active" id="view-grid-btn" aria-label="Grid View" title="Grid View">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="3" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="3" width="7" height="7"></rect>
+                  <rect x="14" y="14" width="7" height="7"></rect>
+                  <rect x="3" y="14" width="7" height="7"></rect>
+                </svg>
+              </button>
+              <button class="view-btn" id="view-list-btn" aria-label="Compact List View" title="List View">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="8" y1="6" x2="21" y2="6"></line>
+                  <line x1="8" y1="12" x2="21" y2="12"></line>
+                  <line x1="8" y1="18" x2="21" y2="18"></line>
+                  <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                  <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                  <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                </svg>
+              </button>
+            </div>
+
+            <!-- Inspect API Endpoint trigger -->
+            <button class="btn btn-outline btn-sm api-inspect-trigger" id="open-api-inspector-btn" title="Inspect current REST API Request">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"></polyline>
+                <polyline points="8 6 2 12 8 18"></polyline>
+              </svg>
+              <span>Inspect API</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Books Grid Container -->
+        <div class="books-grid" id="books-grid" aria-live="polite">
+          <!-- Populated dynamically via REST API JS -->
+        </div>
+
+        <!-- Pagination / Load More -->
+        <div class="catalog-pagination-wrap" id="pagination-wrap">
+          <button class="btn btn-primary load-more-btn" id="load-more-btn" hidden>
+            <span>Load More Books</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- My Reading Shelf Drawer (Slide-Over) -->
+  <aside class="shelf-drawer" id="shelf-drawer" aria-labelledby="shelf-drawer-title" aria-hidden="true">
+    <div class="shelf-drawer-overlay" id="shelf-drawer-overlay"></div>
+    <div class="shelf-drawer-panel">
+      <div class="shelf-header">
+        <div class="shelf-title-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-0.5-0.05"/>
+            <path d="M6 2v20"/>
+          </svg>
+          <h2 id="shelf-drawer-title">My Reading Shelf</h2>
+        </div>
+        <button class="icon-btn close-drawer-btn" id="close-shelf-btn" aria-label="Close bookshelf">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Shelf Tabs -->
+      <div class="shelf-tabs-nav" role="tablist">
+        <button class="shelf-tab active" id="tab-borrowed" data-target="shelf-borrowed-pane" role="tab" aria-selected="true">
+          <span>Borrowed Books</span>
+          <span class="tab-badge" id="tab-borrowed-count">0</span>
+        </button>
+        <button class="shelf-tab" id="tab-saved" data-target="shelf-saved-pane" role="tab" aria-selected="false">
+          <span>Saved Wishlist</span>
+          <span class="tab-badge" id="tab-saved-count">0</span>
+        </button>
+      </div>
+
+      <div class="shelf-body">
+        <!-- Borrowed Pane -->
+        <div class="shelf-pane active" id="shelf-borrowed-pane" role="tabpanel">
+          <div class="borrow-guidance">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <polyline points="12 6 12 12 16 14"></polyline>
+            </svg>
+            <p>Digital loans have a 14-day checkout period with instant free renewal and cloud bookmarking.</p>
+          </div>
+          <div class="shelf-items-list" id="borrowed-items-list">
+            <!-- Dynamic borrowed cards -->
+          </div>
+        </div>
+
+        <!-- Saved Wishlist Pane -->
+        <div class="shelf-pane" id="shelf-saved-pane" role="tabpanel" hidden>
+          <div class="shelf-items-list" id="saved-items-list">
+            <!-- Dynamic saved cards -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Book Detail Modal Dialog -->
+  <div class="modal-dialog-backdrop" id="book-modal-backdrop" aria-hidden="true">
+    <div class="modal-container" role="dialog" aria-modal="true" aria-labelledby="modal-book-title">
+      <button class="icon-btn modal-close-btn" id="modal-close-btn" aria-label="Close details">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
+        </svg>
+      </button>
+
+      <div class="modal-body" id="modal-body-content">
+        <!-- Dynamic book detail rendered by app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- REST API Live Inspector Modal -->
+  <div class="modal-dialog-backdrop" id="api-modal-backdrop" aria-hidden="true">
+    <div class="modal-container api-inspector-container" role="dialog" aria-modal="true" aria-labelledby="api-modal-title">
+      <div class="api-inspector-header">
+        <div class="api-modal-title-wrap">
+          <div class="pulse-indicator"></div>
+          <h2 id="api-modal-title">Live REST API Inspector</h2>
+          <span class="badge badge-success">HTTP 200 OK</span>
+        </div>
+        <button class="icon-btn modal-close-btn" id="api-modal-close-btn" aria-label="Close API inspector">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"></line>
+            <line x1="6" y1="6" x2="18" y2="18"></line>
+          </svg>
+        </button>
+      </div>
+
+      <div class="api-inspector-body">
+        <div class="api-meta-cards">
+          <div class="api-card">
+            <span class="api-card-label">HTTP Method</span>
+            <span class="api-card-value text-indigo">GET</span>
+          </div>
+          <div class="api-card">
+            <span class="api-card-label">Response Time</span>
+            <span class="api-card-value text-emerald" id="api-metric-time">-- ms</span>
+          </div>
+          <div class="api-card">
+            <span class="api-card-label">Records Found</span>
+            <span class="api-card-value" id="api-metric-count">--</span>
+          </div>
+          <div class="api-card">
+            <span class="api-card-label">Provider</span>
+            <span class="api-card-value text-amber">OpenLibrary.org</span>
+          </div>
+        </div>
+
+        <div class="api-code-block-wrap">
+          <div class="api-code-header">
+            <span class="endpoint-label">Active REST Endpoint URL</span>
+            <button class="copy-endpoint-btn" id="copy-endpoint-btn">Copy URL</button>
+          </div>
+          <div class="endpoint-url-box" id="api-endpoint-url-display">https://openlibrary.org/search.json?q=trending</div>
+        </div>
+
+        <div class="api-code-block-wrap">
+          <div class="api-code-header">
+            <span class="endpoint-label">Real-time JSON Response Payload</span>
+            <span class="json-size-tag" id="api-json-size">~0 KB</span>
+          </div>
+          <pre class="json-code-view"><code id="api-json-preview">Loading live REST data...</code></pre>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container" aria-live="assertive"></div>
+
+  <!-- Footer -->
+  <footer class="app-footer">
+    <div class="section-container footer-content">
+      <div class="footer-col brand-col">
+        <div class="brand-text">
+          <span class="brand-name">LUMINA</span>
+          <span class="brand-badge">LIBRARY</span>
+        </div>
+        <p class="footer-desc">
+          An open-source digital public library interface communicating asynchronously with Open Library REST Web Services.
+        </p>
+        <div class="footer-api-badge">
+          <span>Powered by Open Library REST API</span>
+        </div>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">REST API Endpoints</h4>
+        <ul class="footer-links">
+          <li><code>GET /search.json?q={query}</code></li>
+          <li><code>GET /subjects/{subject}.json</code></li>
+          <li><code>GET /works/{id}.json</code></li>
+          <li><code>GET /b/id/{cover_id}-M.jpg</code></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4 class="footer-heading">Keyboard Shortcuts</h4>
+        <ul class="footer-shortcuts">
+          <li><kbd>⌘ / Ctrl</kbd> + <kbd>K</kbd> <span>Focus Search</span></li>
+          <li><kbd>ESC</kbd> <span>Close Any Modal</span></li>
+          <li><kbd>S</kbd> <span>Open My Shelf</span></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="section-container footer-bottom-inner">
+        <p>© 2026 Lumina Online Library. Designed with modern vanilla web standards & REST architecture.</p>
+        <p class="footer-credits">Data provided openly under CC0 / Open Library contributors.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
